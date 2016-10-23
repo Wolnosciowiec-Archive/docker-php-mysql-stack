@@ -1,0 +1,40 @@
+version: '2'
+services:
+    # This will create a MySQL server
+    # and store data in "./mysql" (in project directory)
+    #
+    # You can connect to it using:
+    # mysql -u root -proot -h 127.0.0.1
+    db:
+        image: mysql/mysql-server
+        ports:
+            - "3306:3306"
+        expose:
+            - "3306"
+        volumes:
+            - ./.mysql:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+
+    # Database administration web gui
+    # accessible via http://localhost:8003
+    db_admin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "80:8003"
+        expose:
+            - "80"
+        links:
+            - db
+
+    # Application ran by PHP Builtin Web Server
+    # accessible on http://localhost:8002
+    application:
+        build: ./php56
+        ports:
+            - "8002:8002"
+        expose:
+            - "8002"
+        volumes:
+            - ../:/var/www
+        entrypoint: php5.6 -S 0.0.0.0:8002 -c ./php.ini -t /var/www
