@@ -38,6 +38,7 @@ services:
         volumes:
             - ../:/var/www
         entrypoint: php5.6 -S 0.0.0.0:8002 -c ./php.ini -t /var/www
+        # entrypoint: php5.6 -S 0.0.0.0:8002 -c ./php.ini /var/www/index.php # to redirect everything through custom router in index.php
 
     # Application on PHP 7.0
     # accessible on http://localhost:8001
