@@ -7,6 +7,6 @@ install:
   - cd suite/standalone && docker-compose build
   - cd ../apache2 && docker-compose build
 script:
-  - cd ../standalone && docker-compose up -d
+  - cd ../standalone && docker-compose up -d && docker-compose kill
   - cd ../apache2 && docker-compose up -d
  
