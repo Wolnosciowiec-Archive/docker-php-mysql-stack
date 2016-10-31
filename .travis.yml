@@ -4,7 +4,8 @@ python:
 services:
   - docker
 install:
-  - docker-compose build
+  - cd standalone && docker-compose build
+  - cd ../apache2 && docker-compose build
 script:
-  - docker-compose up -d
+  - cd standalone && docker-compose up -d
  

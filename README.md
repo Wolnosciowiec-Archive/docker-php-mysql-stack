@@ -7,4 +7,10 @@ By default includes a PHP 5.6 that I used to work with legacy code, but easily P
 
 # Usage
 
-Clone this repository inside of you'r project's directory, and run `sudo docker-compose up`
+Clone this repository inside of you'r project's directory, and run `sudo docker-compose up --force-recreate --build`
+in one of suites directory
+
+# Forwarded ports
+- Database administration: localhost:8003
+- PHP7: localhost:8005
+- PHP5.6: localhost:8002

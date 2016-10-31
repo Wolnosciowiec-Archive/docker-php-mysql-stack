@@ -1,5 +1,12 @@
 version: '2'
 services:
+    # Alternative to phpMyAdmin
+    # will be available on http://localhost:8003
+    mysql_admin:
+        build: ../../containers/chive
+        ports:
+            - "8003:8003"
+
     # This will create a MySQL server
     # and store data in "./mysql" (in project directory)
     #
@@ -12,40 +19,29 @@ services:
         expose:
             - "3306"
         volumes:
-            - ./.mysql:/var/lib/mysql
+            - ../../.data/mysql:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
-
-    # Database administration web gui
-    # accessible via http://localhost:8003
-    db_admin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "80:8003"
-        expose:
-            - "80"
-        links:
-            - db
 
     # Application ran by PHP Builtin Web Server
     # accessible on http://localhost:8002
     application:
-        build: ./php56
+        build: ../../containers/php56
         ports:
             - "8002:8002"
         expose:
             - "8002"
         volumes:
-            - ../:/var/www
-        entrypoint: php5.6 -S 0.0.0.0:8002 -c ./php.ini -t /var/www
+            - ../../../:/var/www
+        entrypoint: php5.6 -S 0.0.0.0:8002 -c /var/www/php.ini -t /var/www
         # entrypoint: php5.6 -S 0.0.0.0:8002 -c ./php.ini /var/www/index.php # to redirect everything through custom router in index.php
 
     # Application on PHP 7.0
     # accessible on http://localhost:8001
     application_php7:
-        image: geshan/php7-alpine
+        build: ../../containers/php70
         ports:
             - "8001:8001"
         volumes:
-            - ../:/var/www
-        entrypoint: php -S 0.0.0.0:8001 -c ./php.ini -t /var/www
+            - ../../../:/var/www
+        entrypoint: php -S 0.0.0.0:8001 -c /var/www/php.ini -t /var/www
